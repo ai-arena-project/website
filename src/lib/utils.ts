@@ -1,6 +1,5 @@
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import { FirebaseError } from '@/types/auth';
 
 // Combine clsx and tailwind-merge for handling class names
 export function cn(...inputs: ClassValue[]) {
@@ -64,27 +63,40 @@ export const getPasswordStrength = (password: string): { strength: number; label
 };
 
 // Format Firebase error messages for user-friendly display
-export const formatFirebaseError = (error: FirebaseError): string => {
-  const errorCode = error.code;
-  
-  switch (errorCode) {
-    case 'auth/email-already-in-use':
-      return 'This email is already registered. Please use a different email or try logging in.';
-    case 'auth/invalid-email':
-      return 'The email address is not valid.';
-    case 'auth/user-disabled':
-      return 'This account has been disabled. Please contact support.';
-    case 'auth/user-not-found':
-      return 'No account found with this email. Please check your email or register.';
-    case 'auth/wrong-password':
-      return 'Incorrect password. Please try again or reset your password.';
-    case 'auth/too-many-requests':
-      return 'Too many unsuccessful login attempts. Please try again later or reset your password.';
-    case 'auth/weak-password':
-      return 'The password is too weak. Please use a stronger password.';
-    case 'auth/requires-recent-login':
-      return 'This operation requires recent authentication. Please log in again before retrying.';
-    default:
-      return error.message || 'An error occurred. Please try again.';
+export const formatFirebaseError = (error: unknown): string => {
+  // Check if the error is a FirebaseError
+  if (typeof error === 'object' && error !== null && 'code' in error && typeof error.code === 'string') {
+    const errorCode = error.code;
+    
+    switch (errorCode) {
+      case 'auth/email-already-in-use':
+        return 'This email is already registered. Please use a different email or try logging in.';
+      case 'auth/invalid-email':
+        return 'The email address is not valid.';
+      case 'auth/user-disabled':
+        return 'This account has been disabled. Please contact support.';
+      case 'auth/user-not-found':
+        return 'No account found with this email. Please check your email or register.';
+      case 'auth/wrong-password':
+        return 'Incorrect password. Please try again or reset your password.';
+      case 'auth/too-many-requests':
+        return 'Too many unsuccessful login attempts. Please try again later or reset your password.';
+      case 'auth/weak-password':
+        return 'The password is too weak. Please use a stronger password.';
+      case 'auth/requires-recent-login':
+        return 'This operation requires recent authentication. Please log in again before retrying.';
+      default:
+        return 'message' in error && typeof error.message === 'string' 
+          ? error.message 
+          : 'An error occurred. Please try again.';
+    }
   }
+  
+  // If it's not a FirebaseError, try to get a meaningful message
+  if (error instanceof Error) {
+    return error.message;
+  }
+  
+  // Fallback for completely unknown errors
+  return 'An error occurred. Please try again.';
 };
