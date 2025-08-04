@@ -1,9 +1,15 @@
 import { User as FirebaseUser } from 'firebase/auth';
 
-// User type extending Firebase User with additional properties if needed
-export interface User extends FirebaseUser {
-  // Add any additional user properties here
+// Firebase Error interface
+export interface FirebaseError {
+  code: string;
+  message: string;
 }
+
+// User type extending Firebase User
+// This is a placeholder for future extensions to the User type
+// We're using a type alias instead of an interface to avoid the empty interface warning
+export type User = FirebaseUser;
 
 // Auth state type
 export interface AuthState {

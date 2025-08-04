@@ -57,7 +57,7 @@ const ProfileUpdateForm: React.FC = () => {
       await updateEmail(data.email, data.currentPassword);
       setEmailUpdateSuccess(true);
       resetEmailForm({ email: data.email, currentPassword: '' });
-    } catch (error) {
+    } catch {
       // Error is handled by the auth context
     }
   };
@@ -75,7 +75,7 @@ const ProfileUpdateForm: React.FC = () => {
         newPassword: '',
         confirmNewPassword: '',
       });
-    } catch (error) {
+    } catch {
       // Error is handled by the auth context
     }
   };
@@ -88,7 +88,7 @@ const ProfileUpdateForm: React.FC = () => {
     try {
       await sendVerificationEmail();
       setVerificationEmailSent(true);
-    } catch (error) {
+    } catch {
       // Error is handled by the auth context
     }
   };

@@ -29,7 +29,7 @@ const ResetPasswordForm: React.FC = () => {
     try {
       await resetPassword(data.email);
       setIsSubmitted(true);
-    } catch (error) {
+    } catch {
       // Error is handled by the auth context
     }
   };

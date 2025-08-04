@@ -65,6 +65,7 @@ Push latest container:
 
 Deploy DEV:
   stage: deploy
+  image: node:16.16.0
   only:
     - main
   script:
@@ -75,6 +76,7 @@ Deploy DEV:
 
 Deploy PROD:
   stage: deploy
+  image: node:16.16.0
   only:
     - main
   script:

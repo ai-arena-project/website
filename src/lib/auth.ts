@@ -28,9 +28,8 @@ export const registerUser = async (email: string, password: string): Promise<Use
 };
 
 // Login with email and password
-export const loginUser = async (email: string, password: string, rememberMe: boolean = false): Promise<UserCredential> => {
+export const loginUser = async (email: string, password: string): Promise<UserCredential> => {
   try {
-    // Set persistence based on rememberMe option
     // Firebase Web SDK handles persistence automatically
     return await signInWithEmailAndPassword(auth, email, password);
   } catch (error) {

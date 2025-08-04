@@ -1,5 +1,6 @@
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import { FirebaseError } from '@/types/auth';
 
 // Combine clsx and tailwind-merge for handling class names
 export function cn(...inputs: ClassValue[]) {
@@ -63,7 +64,7 @@ export const getPasswordStrength = (password: string): { strength: number; label
 };
 
 // Format Firebase error messages for user-friendly display
-export const formatFirebaseError = (error: any): string => {
+export const formatFirebaseError = (error: FirebaseError): string => {
   const errorCode = error.code;
   
   switch (errorCode) {

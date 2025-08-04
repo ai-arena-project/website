@@ -53,7 +53,7 @@ export const useFirebase = (): UseFirebaseReturn => {
       const credential = EmailAuthProvider.credential(currentUser.email, password);
       await reauthenticateWithCredential(currentUser, credential);
       return true;
-    } catch (error) {
+    } catch {
       return false;
     }
   };

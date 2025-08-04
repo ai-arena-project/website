@@ -104,7 +104,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       await registerUser(email, password);
       toast.success('Registration successful! Please verify your email.');
       router.push('/auth/login');
-    } catch (error: any) {
+    } catch (error) {
       const errorMessage = formatFirebaseError(error);
       setError(errorMessage);
       toast.error(errorMessage);
@@ -114,13 +114,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   // Login user
-  const login = async (email: string, password: string, rememberMe: boolean = false) => {
+  const login = async (email: string, password: string) => {
     try {
       setLoading(true);
       clearError();
       
       // Login with Firebase
-      const userCredential = await loginUser(email, password, rememberMe);
+      const userCredential = await loginUser(email, password);
       
       // Create session cookie
       if (userCredential.user) {
@@ -133,7 +133,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       
       toast.success('Login successful!');
       router.push('/dashboard');
-    } catch (error: any) {
+    } catch (error) {
       const errorMessage = formatFirebaseError(error);
       setError(errorMessage);
       toast.error(errorMessage);
@@ -156,7 +156,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       
       toast.success('Logout successful!');
       router.push('/');
-    } catch (error: any) {
+    } catch (error) {
       const errorMessage = formatFirebaseError(error);
       setError(errorMessage);
       toast.error(errorMessage);
@@ -173,7 +173,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       await resetPasswordFn(email);
       toast.success('Password reset email sent!');
       router.push('/auth/login');
-    } catch (error: any) {
+    } catch (error) {
       const errorMessage = formatFirebaseError(error);
       setError(errorMessage);
       toast.error(errorMessage);
@@ -197,7 +197,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       await updateUserEmail(user, newEmail);
       
       toast.success('Email updated successfully!');
-    } catch (error: any) {
+    } catch (error) {
       const errorMessage = formatFirebaseError(error);
       setError(errorMessage);
       toast.error(errorMessage);
@@ -221,7 +221,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       await updateUserPassword(user, newPassword);
       
       toast.success('Password updated successfully!');
-    } catch (error: any) {
+    } catch (error) {
       const errorMessage = formatFirebaseError(error);
       setError(errorMessage);
       toast.error(errorMessage);
@@ -241,7 +241,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       await sendVerificationEmailFn(user);
       
       toast.success('Verification email sent!');
-    } catch (error: any) {
+    } catch (error) {
       const errorMessage = formatFirebaseError(error);
       setError(errorMessage);
       toast.error(errorMessage);

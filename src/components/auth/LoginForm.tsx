@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { EnvelopeIcon, LockClosedIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
@@ -12,7 +12,6 @@ import { isValidEmail } from '@/lib/utils';
 
 const LoginForm: React.FC = () => {
   const { login, loading, error, clearError } = useAuth();
-  const [showPassword, setShowPassword] = useState(false);
   
   const {
     register,
