@@ -7,8 +7,6 @@ image: git-registry.m1nd.io/m1nd/molecule-dind:latest
 
 stages:
   - test
-  - build
-  - push
   - deploy
 
 Sonarqube Scanner:
@@ -30,41 +28,9 @@ Sonarqube Scanner:
   only:
     - main
 
-Build Container:
-  stage: build
-  <<: *check_docker_login
-  script:
-    - docker pull $CI_REGISTRY_IMAGE:latest || true
-    - >
-      docker build
-      --pull
-      --cache-from $CI_REGISTRY_IMAGE:latest
-      --label "org.opencontainers.image.title=$CI_PROJECT_TITLE"
-      --label "org.opencontainers.image.url=$CI_PROJECT_URL"
-      --label "org.opencontainers.image.created=$CI_JOB_STARTED_AT"
-      --label "org.opencontainers.image.revision=$CI_COMMIT_SHA"
-      --label "org.opencontainers.image.version=$CI_COMMIT_REF_NAME"
-      --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
-      .
-    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
-
-# tag the "main" branch as "latest"
-Push latest container:
-  variables:
-    GIT_STRATEGY: none
-  stage: push
-  <<: *check_docker_login
-  only:
-    - main
-  script:
-    - docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
-    - docker tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE:latest
-    - docker push $CI_REGISTRY_IMAGE:latest
-  needs:
-    - "Build Container"
-
 Deploy DEV:
   stage: deploy
+  environment: dev
   image: node:16.16.0
   only:
     - main
@@ -76,6 +42,7 @@ Deploy DEV:
 
 Deploy PROD:
   stage: deploy
+  environment: prod
   image: node:16.16.0
   only:
     - main
