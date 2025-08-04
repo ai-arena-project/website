@@ -1,106 +1,110 @@
-# AI Arena Website
+# Firebase Authentication System
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+This project implements a complete Firebase authentication system for a Next.js application, including server-side verification of Firebase ID tokens.
 
-## Prerequisites
+## Features
 
-Before you begin, ensure you have the following installed:
-- [Node.js](https://nodejs.org/) (version 18 or later recommended)
-- npm (comes with Node.js) or [yarn](https://yarnpkg.com/) or [pnpm](https://pnpm.io/) or [bun](https://bun.sh/)
+- User registration with email and password
+- User login with email and password
+- Password reset functionality
+- Email verification
+- Protected routes with server-side verification
+- Session management with secure cookies
+- Profile management (update email and password)
 
-## Installation
+## Setup Instructions
 
-1. Clone the repository:
-   ```bash
-   git clone <repository-url>
-   cd aiarena-website
-   ```
+### 1. Firebase Project Setup
 
-2. Install dependencies:
-   ```bash
-   npm install
-   # or
-   yarn install
-   # or
-   pnpm install
-   # or
-   bun install
-   ```
+1. Create a Firebase project at [https://console.firebase.google.com/](https://console.firebase.google.com/)
+2. Enable the Email/Password authentication method:
+   - Go to Authentication > Sign-in method
+   - Enable Email/Password provider
+3. Optional: Configure email templates for verification and password reset emails
 
-## Development
+### 2. Environment Configuration
 
-To run the development server:
+1. Copy the `.env.local` file and fill in your Firebase project details:
 
+```
+# Firebase Client SDK Configuration
+NEXT_PUBLIC_FIREBASE_API_KEY=your_api_key_here
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your_project_id.firebaseapp.com
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_project_id
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your_project_id.appspot.com
+NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+NEXT_PUBLIC_FIREBASE_APP_ID=your_app_id
+
+# Firebase Admin SDK Configuration
+FIREBASE_SERVICE_ACCOUNT_KEY=your_base64_encoded_service_account_key_here
+```
+
+2. To get your Firebase Client SDK configuration:
+   - Go to Firebase Console > Project Settings > General
+   - Scroll down to "Your apps" section
+   - Click on the Web app (create one if you haven't already)
+   - Copy the configuration values
+
+3. To get your Firebase Admin SDK service account key:
+   - Go to Firebase Console > Project Settings > Service Accounts
+   - Click "Generate new private key"
+   - Save the JSON file
+   - Base64 encode the JSON file content:
+     - On macOS/Linux: `cat path/to/serviceAccountKey.json | base64`
+     - On Windows: `certutil -encode path/to/serviceAccountKey.json temp.b64 && findstr /v /c:- temp.b64 > temp.txt`
+   - Copy the output and paste it as the value for `FIREBASE_SERVICE_ACCOUNT_KEY`
+
+### 3. Installation and Running
+
+1. Install dependencies:
+```bash
+npm install
+```
+
+2. Run the development server:
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-The development server uses Turbopack for faster builds and refreshes.
+3. Open [http://localhost:3000](http://localhost:3000) in your browser
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the application.
+## Authentication Flow
 
-You can start editing the page by modifying `src/app/page.tsx`. The page auto-updates as you edit the file.
+1. **Client-side Authentication**:
+   - User logs in using Firebase Authentication
+   - Upon successful login, an ID token is obtained
+   - The ID token is sent to the server to create a session cookie
 
-## Production
+2. **Server-side Verification**:
+   - The server verifies the ID token using Firebase Admin SDK
+   - If valid, a session cookie is created and sent to the client
+   - The session cookie is used for subsequent requests
 
-### Building for Production
+3. **Middleware Protection**:
+   - Next.js middleware checks for the session cookie
+   - The cookie is verified using Firebase Admin SDK
+   - If valid, the user is allowed to access protected routes
+   - If invalid, the user is redirected to the login page
 
-To build the application for production:
+## Security Considerations
 
-```bash
-npm run build
-# or
-yarn build
-# or
-pnpm build
-# or
-bun build
-```
+- Session cookies are HTTP-only to prevent JavaScript access
+- Cookies are secure in production to ensure HTTPS-only transmission
+- Server-side verification ensures tokens cannot be tampered with
+- Session cookies are automatically invalidated when a user logs out
+- Firebase Admin SDK verifies tokens with Firebase's servers
 
-### Running in Production
+## Testing
 
-To start the production server after building:
+A test endpoint is available at `/api/auth/test` to verify that the Firebase Admin SDK is working correctly. This endpoint should be removed in production.
 
-```bash
-npm run start
-# or
-yarn start
-# or
-pnpm start
-# or
-bun start
-```
+## Troubleshooting
 
-The production server will run on [http://localhost:3000](http://localhost:3000) by default. You can configure the port by setting the `PORT` environment variable.
+- **Invalid Service Account**: Ensure the service account key is correctly base64 encoded
+- **Middleware Errors**: Check server logs for detailed error messages
+- **Authentication Issues**: Verify Firebase configuration in `.env.local`
+- **CORS Errors**: Ensure your Firebase project has the correct domains whitelisted
 
-## Additional Commands
+## License
 
-- **Linting**: Run ESLint to check for code quality and style issues
-  ```bash
-  npm run lint
-  # or
-  yarn lint
-  # or
-  pnpm lint
-  # or
-  bun lint
-  ```
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-## Deployment
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new) from the creators of Next.js.
-
-Check out the [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details on other deployment options.
+This project is licensed under the MIT License - see the LICENSE file for details.
