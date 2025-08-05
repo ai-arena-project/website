@@ -34,6 +34,7 @@ NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_project_id
 NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your_project_id.appspot.com
 NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
 NEXT_PUBLIC_FIREBASE_APP_ID=your_app_id
+NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=measurement_id
 
 # Firebase Admin SDK Configuration
 FIREBASE_SERVICE_ACCOUNT_KEY=your_base64_encoded_service_account_key_here
@@ -97,13 +98,6 @@ npm run dev
 ## Testing
 
 A test endpoint is available at `/api/auth/test` to verify that the Firebase Admin SDK is working correctly. This endpoint should be removed in production.
-
-## Troubleshooting
-
-- **Invalid Service Account**: Ensure the service account key is correctly base64 encoded
-- **Middleware Errors**: Check server logs for detailed error messages
-- **Authentication Issues**: Verify Firebase configuration in `.env.local`
-- **CORS Errors**: Ensure your Firebase project has the correct domains whitelisted
 
 ## License
 
