@@ -23,7 +23,7 @@ export async function middleware(request: NextRequest) {
   if (sessionCookie) {
     try {
       // Call the session verification API
-      const response = await fetch(new URL('/api/auth/session', request.url), {
+      const response = await fetch(new URL(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/session`, request.url), {
         headers: {
           Cookie: `__session=${sessionCookie}`
         }

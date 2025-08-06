@@ -1,0 +1,22 @@
+runConfig:
+  minInstances: 1
+
+env:
+  - variable: FIREBASE_SERVICE_ACCOUNT_KEY
+    secret: FIREBASE_SERVICE_ACCOUNT_KEY
+  - variable: NEXT_PUBLIC_API_URL
+    value: https://ai-arena.net
+  - variable: NEXT_PUBLIC_FIREBASE_API_KEY
+    value: 'AIzaSyAOUKusoz566TUGD0UKFIvesilX_QQTIw8'
+  - variable: NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN
+    value: 'aiarena-16671.firebaseapp.com'
+  - variable: NEXT_PUBLIC_FIREBASE_PROJECT_ID
+    value: 'aiarena-16671'
+  - variable: NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET
+    value: 'aiarena-16671.firebasestorage.app'
+  - variable: NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID
+    value: '868540359427'
+  - variable: NEXT_PUBLIC_FIREBASE_APP_ID
+    value: '1:868540359427:web:40482892d66e8f189fff36'
+  - variable: NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
+    value: 'G-BFMCPMLH26'
