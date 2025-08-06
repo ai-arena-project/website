@@ -7,7 +7,7 @@ env:
   - variable: NEXT_PUBLIC_API_URL
     value: https://ai-arena.net
   - variable: NEXT_PUBLIC_FIREBASE_API_KEY
-    value: 'AIzaSyAOUKusoz566TUGD0UKFIvesilX_QQTIw8'
+    secret: NEXT_PUBLIC_FIREBASE_API_KEY
   - variable: NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN
     value: 'aiarena-16671.firebaseapp.com'
   - variable: NEXT_PUBLIC_FIREBASE_PROJECT_ID
